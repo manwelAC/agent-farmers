@@ -54,40 +54,45 @@ func _ready():
 	farm.worker_selected.connect(func(id): crew_picked.emit(id))
 	add_child(hud)
 	hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var brand = VBoxContainer.new()
+	var brand = TextureRect.new()
+	var lettering = Image.new()
+	lettering.load_svg_from_string(FileAccess.get_file_as_string("res://farm_wordmark.svg"),2.0)
+	brand.texture = ImageTexture.create_from_image(lettering)
+	brand.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	brand.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	brand.custom_minimum_size = Vector2(210,99)
 	brand.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	brand.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	brand.add_theme_constant_override("separation",-13)
 	hud.add_child(brand)
+	var spacer = Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud.add_child(spacer)
+	var controls = HBoxContainer.new()
+	controls.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	controls.custom_minimum_size.y = 42
+	controls.add_theme_constant_override("separation",6)
+	hud.add_child(controls)
 	var display_font = SystemFont.new()
 	display_font.font_names = PackedStringArray(["Arial Black","Segoe UI Black"])
 	display_font.font_weight = 900
-	for word in ["AGENT","FARMERS"]:
-		var line = Label.new()
-		line.text = word
-		line.add_theme_font_size_override("font_size",28 if word == "AGENT" else 47)
-		line.add_theme_font_override("font",display_font)
-		line.add_theme_color_override("font_color",Color("ffde80") if word == "AGENT" else Color("fffcef"))
-		line.add_theme_color_override("font_outline_color",Color("263e49"))
-		line.add_theme_constant_override("outline_size",6)
-		line.add_theme_color_override("font_shadow_color",Color("263e49"))
-		line.add_theme_constant_override("shadow_offset_y",5)
-		brand.add_child(line)
 	places.text = "Explore farm ▾"
 	places.flat = false
-	places.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	hud.add_child(places)
+	controls.add_child(places)
 	var destinations = ["Whole farm","Homestead","West orchard","Grain fields","Horse paddock","Sheep pasture","Riverside market","Watermill","Apiary","Crew fields"]
 	for place in destinations: places.get_popup().add_item(place)
 	places.get_popup().id_pressed.connect(func(id): farm.visit(destinations[id]))
 	status.text = "Starting…"
-	status.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	status.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	status.add_theme_stylebox_override("normal",plate("284751"))
 	status.add_theme_color_override("font_color",Color("e6f5cd"))
-	hud.add_child(status)
-	var fullscreen = action(hud,"⛶",toggle_fullscreen)
+	controls.add_child(status)
+	var fullscreen = action(controls,"",toggle_fullscreen)
 	fullscreen.tooltip_text = "Toggle fullscreen · F11"
-	fullscreen.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	fullscreen.custom_minimum_size = Vector2(42,42)
+	fullscreen.icon = Icons.texture("Fullscreen")
+	fullscreen.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	fullscreen.add_theme_constant_override("icon_max_width",20)
 	add_child(overlay)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	focus_material.shader = preload("res://dialogue_backdrop.gdshader")
@@ -214,8 +219,8 @@ func action(parent: Node, caption: String, callback: Callable) -> Button:
 func arrange():
 	var w = size.x
 	var h = size.y
-	hud.position = Vector2(32,18)
-	hud.size = Vector2(w-64,80)
+	hud.position = Vector2(24,14)
+	hud.size = Vector2(w-48,99)
 	dock.position = Vector2(16,h-133)
 	dock.size = Vector2(w-32,78)
 	hint.position = Vector2(20,h-167)

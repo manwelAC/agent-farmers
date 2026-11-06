@@ -3,6 +3,7 @@ extends RefCounted
 # Deliberately small sprites: each square stays crisp at desktop HUD scale.
 const COLORS = {"d":"263e49","w":"fff2cf","g":"93cc51","l":"d0ec80","b":"c58b54","y":"ffd15e","o":"ed9a46","r":"ec7454","t":"6abec5","s":"9ca9d8"}
 const SPRITES = {
+	"Fullscreen":[".dddd..dddd.",".dddd..dddd.",".dd......dd.",".dd......dd.","............","............",".dd......dd.",".dd......dd.",".dddd..dddd.",".dddd..dddd."],
 	"Save":["............",".ddddddddd..",".dwwwddwsdd.",".dwwwddwsdd.",".dwwwwwwsdd.",".dsssssssdd.",".ddwwwwwddd.",".ddwssswddd.",".ddwwwwwddd.",".dddddddddd."],
 	"Farm":["....rr......","...rrrr.....","..rrrrrr....",".rrrrrrrr...","..owwwwo....","..owddwo..g.","..owddwo.gg.","llllllllllll",".gggggggggg.","..bbbbbbbb.."],
 	"Projects":["............","..yyyy......",".yyyyyyooo..",".ywwwwwwwo..",".ywwwwwwwo..",".yyyyyyyyyy.",".yooooooooy.",".yooooooooy.",".oooooooooo.","............"],
