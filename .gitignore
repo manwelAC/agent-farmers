@@ -1,0 +1,12 @@
+.venv/
+.tools/
+.godot/
+desktop/.godot/
+data/
+work/
+dist/
+dist-*/
+build/
+*.spec
+__pycache__/
+*.pyc
